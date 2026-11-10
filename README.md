@@ -18,3 +18,6 @@ No build step or JavaScript framework is required.
 
 ## Notes
 The mods catalog and changelog are intentionally presented as placeholders until real mods and releases exist. Update the text as the project evolves.
+
+
+![Счетчик просмотров](https://komarev.com/ghpvc/?username=dpotapow1234-cpu&color=green)
