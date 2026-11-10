@@ -12,7 +12,7 @@ Static multi-page website for GitHub Pages.
 ## Publish
 1. Copy the contents of this folder into the root of the `orvex` repository.
 2. Commit and push to the branch configured in GitHub Pages.
-3. Open `https://dpotapow1234-cpu.github.io/orvex/`.
+3. Open `https://dpotapow1234-cpu.github.io/orvex.io/`.
 
 No build step or JavaScript framework is required.
 
