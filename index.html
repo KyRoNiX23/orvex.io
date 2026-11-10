@@ -4,18 +4,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101014">
 
-<title>Orvex — Voxel Sandbox</title>
-<meta name="description" content="Orvex is an evolving voxel sandbox featuring procedural worlds, dynamic environments and a modular modding system.">
+<title>Orvex — Build Your Own World</title>
+
+<meta name="description" content="Orvex is an independent voxel sandbox featuring procedural worlds, dynamic environments and a modular modding system.">
+
+<meta name="theme-color" content="#0b0b10">
+
+<meta property="og:title" content="Orvex — Voxel Sandbox">
+<meta property="og:description" content="Explore, create and shape your own world.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dpotapow1234-cpu.github.io/orvex/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg: #101014;
-    --surface: #19191f;
-    --accent: #9b70ff;
+    --bg: #0b0b10;
+    --surface: #12121a;
+    --surface-hover: #191923;
+    --border: rgba(255,255,255,.08);
+    --accent: #a47aff;
+    --accent-light: #c3a7ff;
     --text: #f5f3fa;
-    --muted: #9995a5;
+    --muted: #858392;
+    --max-width: 1160px;
 }
 
 * {
@@ -26,38 +41,85 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 body {
     background: var(--bg);
     color: var(--text);
-    font-family: Inter, Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
 }
 
 a {
-    color: inherit;
     text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font: inherit;
 }
 
 .container {
-    width: min(1100px, 90%);
+    width: min(var(--max-width), 90%);
     margin: auto;
 }
 
+/* Background */
+
+.background-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-glow::before {
+    content: "";
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    background: #713de9;
+    opacity: .09;
+    filter: blur(180px);
+    top: -350px;
+    left: 25%;
+}
+
+.background-glow::after {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: #4722a3;
+    opacity: .08;
+    filter: blur(180px);
+    bottom: -250px;
+    right: -200px;
+}
+
 /* Navigation */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11,11,16,.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+}
 
 nav {
     height: 76px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #ffffff0d;
 }
 
 .logo {
     font-size: 25px;
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: 2px;
 }
 
@@ -67,119 +129,347 @@ nav {
 
 .nav-links {
     display: flex;
-    gap: 30px;
+    align-items: center;
+    gap: 32px;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nav-links a {
+    transition: color .2s;
 }
 
 .nav-links a:hover {
     color: white;
 }
 
+.nav-github {
+    color: white !important;
+    padding: 10px 17px;
+    background: #ffffff0d;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+}
+
+.nav-github:hover {
+    background: #ffffff18;
+}
+
+.menu-toggle {
+    display: none;
+    color: white;
+    background: transparent;
+    border: 0;
+    font-size: 25px;
+    cursor: pointer;
+}
+
 /* Hero */
 
 .hero {
-    min-height: 590px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    min-height: 660px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+    gap: 35px;
+    padding-top: 40px;
+    padding-bottom: 70px;
 }
 
-.hero::before {
-    content: "";
-    position: absolute;
-    width: 550px;
-    height: 400px;
-    background: #7544d9;
-    filter: blur(180px);
-    opacity: .16;
-    z-index: -1;
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .tag {
-    color: var(--accent);
-    border: 1px solid #9b70ff55;
-    padding: 5px 14px;
-    border-radius: 30px;
-    font-size: 12px;
-    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 13px;
+    border: 1px solid #a47aff40;
+    border-radius: 5px;
+    background: #a47aff0c;
+    color: var(--accent-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
     text-transform: uppercase;
-    margin-bottom: 25px;
+}
+
+.tag-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
 }
 
 .hero h1 {
-    font-size: clamp(60px, 12vw, 112px);
-    line-height: 1;
+    font-size: clamp(65px, 9vw, 112px);
+    line-height: .95;
+    letter-spacing: -7px;
     font-weight: 900;
-    letter-spacing: -5px;
+    margin-top: 30px;
 }
 
 .hero h1 span {
     color: var(--accent);
 }
 
-.hero p {
-    max-width: 570px;
+.hero-description {
+    max-width: 480px;
     color: var(--muted);
-    margin: 25px 0 35px;
-    font-size: 17px;
+    font-size: 15px;
+    line-height: 1.9;
+    margin-top: 27px;
 }
 
-.buttons {
+.hero-buttons {
     display: flex;
-    gap: 14px;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: 12px;
+    margin-top: 35px;
 }
 
 .btn {
-    padding: 12px 24px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
     border-radius: 7px;
-    font-weight: 600;
-    font-size: 14px;
-    transition: .2s;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .25s;
 }
 
 .btn-primary {
     background: var(--accent);
-    color: white;
+    color: #fff;
+    box-shadow: 0 5px 30px #a47aff25;
 }
 
 .btn-primary:hover {
-    background: #8050e8;
-    transform: translateY(-2px);
+    background: #b28fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 35px #a47aff40;
 }
 
 .btn-secondary {
-    border: 1px solid #ffffff25;
+    background: #ffffff08;
+    border: 1px solid var(--border);
 }
 
 .btn-secondary:hover {
-    background: #ffffff10;
+    background: #ffffff14;
+    transform: translateY(-3px);
 }
 
-/* Sections */
+.hero-note {
+    margin-top: 27px;
+    color: #666472;
+    font-size: 11px;
+}
+
+/* Voxel scene */
+
+.scene {
+    height: 430px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 900px;
+}
+
+.scene-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #8753ff;
+    opacity: .12;
+    filter: blur(100px);
+}
+
+.voxel-world {
+    position: relative;
+    width: 330px;
+    height: 270px;
+    transform: rotateX(55deg) rotateZ(-40deg);
+    transform-style: preserve-3d;
+    animation: world-float 6s ease-in-out infinite;
+}
+
+.block {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    transform-style: preserve-3d;
+    background: #7051ae;
+    box-shadow: inset -7px -7px #00000025;
+}
+
+.block::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 22px;
+    background: #b99aff;
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+    top: -22px;
+}
+
+.block::after {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 100%;
+    background: #493277;
+    transform: rotateY(90deg);
+    transform-origin: left;
+    right: -22px;
+}
+
+.block:nth-child(1) {
+    left: 60px;
+    top: 60px;
+}
+
+.block:nth-child(2) {
+    left: 125px;
+    top: 60px;
+    background: #8768ca;
+}
+
+.block:nth-child(3) {
+    left: 190px;
+    top: 60px;
+}
+
+.block:nth-child(4) {
+    left: 60px;
+    top: 125px;
+    background: #8768ca;
+}
+
+.block:nth-child(5) {
+    left: 125px;
+    top: 125px;
+    background: #9a7ad9;
+    transform: translateZ(65px);
+}
+
+.block:nth-child(6) {
+    left: 190px;
+    top: 125px;
+}
+
+.block:nth-child(7) {
+    left: 125px;
+    top: 190px;
+}
+
+.scene-label {
+    position: absolute;
+    bottom: 20px;
+    right: 5px;
+    color: #706b7c;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+@keyframes world-float {
+    0%, 100% {
+        transform: rotateX(55deg) rotateZ(-40deg) translateY(0);
+    }
+    50% {
+        transform: rotateX(55deg) rotateZ(-40deg) translateY(-15px);
+    }
+}
+
+/* Divider */
+
+.section-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ffffff18, transparent);
+}
+
+/* About */
 
 section {
-    padding: 85px 0;
+    padding: 105px 0;
+}
+
+.section-label {
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 15px;
 }
 
 .section-title {
-    font-size: 32px;
-    margin-bottom: 12px;
+    font-size: clamp(30px, 5vw, 43px);
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+    font-weight: 800;
 }
 
 .section-description {
+    max-width: 590px;
     color: var(--muted);
-    margin-bottom: 35px;
-    max-width: 600px;
+    font-size: 14px;
+    line-height: 1.9;
+    margin-top: 18px;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.about-visual {
+    min-height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background:
+        radial-gradient(ellipse at center, #7944d526, transparent 65%),
+        #12121a;
+    overflow: hidden;
+}
+
+.about-visual span {
+    font-size: 90px;
+    filter: drop-shadow(0 10px 35px #a47aff50);
+    animation: visual-float 4s ease-in-out infinite;
+}
+
+@keyframes visual-float {
+    50% { transform: translateY(-12px) rotate(-5deg); }
 }
 
 /* Features */
+
+.features-section {
+    background: #101017;
+}
+
+.features-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 25px;
+    margin-bottom: 40px;
+}
 
 .features {
     display: grid;
@@ -188,89 +478,278 @@ section {
 }
 
 .feature {
-    background: var(--surface);
-    border: 1px solid #ffffff0c;
+    position: relative;
+    min-height: 190px;
     padding: 28px;
-    border-radius: 12px;
-    transition: .2s;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: .3s;
+    overflow: hidden;
 }
 
 .feature:hover {
-    border-color: #9b70ff55;
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    border-color: #a47aff55;
+    background: var(--surface-hover);
 }
 
-.feature .icon {
-    font-size: 26px;
-    margin-bottom: 15px;
+.feature::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    right: -65px;
+    bottom: -70px;
+    background: var(--accent);
+    filter: blur(65px);
+    opacity: 0;
+    transition: .3s;
+}
+
+.feature:hover::after {
+    opacity: .3;
+}
+
+.feature-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #a47aff35;
+    background: #a47aff12;
+    border-radius: 9px;
+    color: var(--accent-light);
+    font-size: 20px;
+    margin-bottom: 23px;
 }
 
 .feature h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .feature p {
     color: var(--muted);
-    font-size: 14px;
+    font-size: 12px;
+    line-height: 1.8;
 }
 
-/* About */
+/* Modding */
 
-.about {
-    background: #15151b;
-    border-top: 1px solid #ffffff0a;
-    border-bottom: 1px solid #ffffff0a;
+.mod-section {
+    padding: 100px 0;
 }
 
-.about-content {
-    max-width: 720px;
+.mod-card {
+    position: relative;
+    padding: 55px;
+    border: 1px solid #a47aff35;
+    border-radius: 13px;
+    background:
+        radial-gradient(ellipse at 85% 50%, #8d59f51a, transparent 50%),
+        #14131c;
+    overflow: hidden;
 }
 
-.about-content p {
+.mod-card h2 {
+    max-width: 550px;
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.mod-card p {
+    max-width: 530px;
     color: var(--muted);
-    margin-top: 18px;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-top: 20px;
+}
+
+.mod-badge {
+    display: inline-block;
+    color: var(--accent-light);
+    border: 1px solid #a47aff44;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+/* CTA */
+
+.cta {
+    text-align: center;
+    padding: 110px 20px;
+    border-top: 1px solid var(--border);
+    background: radial-gradient(ellipse at center, #7542d51b, transparent 65%);
+}
+
+.cta h2 {
+    font-size: clamp(30px, 5vw, 45px);
+    letter-spacing: -1.5px;
+}
+
+.cta p {
+    color: var(--muted);
+    margin: 18px auto 30px;
+    max-width: 500px;
+    font-size: 13px;
+    line-height: 1.8;
 }
 
 /* Footer */
 
 footer {
-    padding: 35px 0;
-    color: var(--muted);
-    font-size: 13px;
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    align-items: center;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
-footer strong {
-    color: var(--text);
+.footer-logo {
+    font-weight: 900;
+    letter-spacing: 2px;
 }
 
-@media(max-width: 650px) {
+.footer-logo span {
+    color: var(--accent);
+}
+
+.footer-text {
+    color: #686675;
+    font-size: 11px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+/* Scroll animation */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity .7s, transform .7s;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+
+@media(max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 90px;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-description {
+        max-width: 550px;
+    }
+
+    .scene {
+        height: 330px;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .features-header {
+        display: block;
+    }
+
+    .mod-card {
+        padding: 35px;
+    }
+}
+
+@media(max-width: 600px) {
     .nav-links {
-        gap: 14px;
-        font-size: 12px;
+        display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        width: 100%;
+        padding: 25px 5%;
+        background: #111119;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 23px;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .hero h1 {
+        font-size: 76px;
+        letter-spacing: -5px;
     }
 
     .features {
         grid-template-columns: 1fr;
     }
 
-    .hero {
-        min-height: 500px;
+    .scene {
+        transform: scale(.85);
+        margin: -15px 0;
     }
 
-    .hero h1 {
-        letter-spacing: -3px;
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    section {
-        padding: 60px 0;
+    .mod-card h2 {
+        font-size: 29px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
     }
 }
 </style>
@@ -278,119 +757,307 @@ footer strong {
 
 <body>
 
-<div class="container">
+<div class="background-glow"></div>
 
+<header>
+<div class="container">
 <nav>
     <a href="#" class="logo">ORV<span>EX</span></a>
 
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
         <a href="#about">About</a>
         <a href="#features">Features</a>
-        <a href="https://github.com/dpotapow1234-cpu/orvex">GitHub</a>
+        <a href="#modding">Modding</a>
+        <a class="nav-github"
+           href="https://github.com/dpotapow1234-cpu/orvex"
+           target="_blank" rel="noopener noreferrer">
+           GitHub ↗
+        </a>
     </div>
+
+    <button class="menu-toggle"
+            id="menuToggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="navLinks">
+        ☰
+    </button>
 </nav>
-
-<header class="hero">
-    <div class="tag">Voxel Sandbox Project</div>
-
-    <h1>ORV<span>EX</span></h1>
-
-    <p>
-        Explore, create and shape your own world.
-        A voxel sandbox built around procedural generation,
-        dynamic environments and endless possibilities.
-    </p>
-
-    <div class="buttons">
-        <a class="btn btn-primary"
-           href="https://github.com/dpotapow1234-cpu/orvex">
-            Explore GitHub ↗
-        </a>
-
-        <a class="btn btn-secondary"
-           href="https://github.com/dpotapow1234-cpu/orvex/releases">
-            Releases
-        </a>
-    </div>
+</div>
 </header>
 
+<main>
+
+<!-- HERO -->
+
+<div class="container">
+<section class="hero">
+
+    <div class="hero-content">
+        <div class="tag">
+            <span class="tag-dot"></span>
+            Independent Voxel Project
+        </div>
+
+        <h1>ORV<span>EX</span></h1>
+
+        <p class="hero-description">
+            A world without boundaries.
+
+            Explore, build and shape your own universe
+            in an evolving voxel sandbox.
+            Discover procedural worlds and endless possibilities.
+        </p>
+
+        <div class="hero-buttons">
+            <a class="btn btn-primary"
+               href="https://github.com/dpotapow1234-cpu/orvex"
+               target="_blank" rel="noopener noreferrer">
+                Explore Project ↗
+            </a>
+
+            <a class="btn btn-secondary" href="#about">
+                Discover Orvex ↓
+            </a>
+        </div>
+
+        <div class="hero-note">
+            AN INDEPENDENT GAME DEVELOPMENT PROJECT
+        </div>
+    </div>
+
+    <div class="scene">
+        <div class="scene-glow"></div>
+
+        <div class="voxel-world">
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+        </div>
+
+        <div class="scene-label">WORLD GENERATION / 001</div>
+    </div>
+
+</section>
 </div>
 
-<section class="about" id="about">
+<div class="section-line"></div>
+
+<!-- ABOUT -->
+
+<section id="about">
 <div class="container">
-    <div class="about-content">
-        <h2 class="section-title">A world of possibilities.</h2>
+    <div class="about-grid reveal">
 
-        <p>
-            Orvex is an independent voxel sandbox project
-            focused on exploration, creativity and world simulation.
-        </p>
+        <div>
+            <div class="section-label">01 / About</div>
 
-        <p>
-            Built with modular architecture and designed
-            to evolve through new systems, features and community mods.
-        </p>
+            <h2 class="section-title">
+                More than just<br>
+                a voxel world.
+            </h2>
+
+            <p class="section-description">
+                Orvex is an independent voxel sandbox project
+                focused on exploration, creativity and world simulation.
+
+                Built with a modular architecture, Orvex aims
+                to provide a flexible foundation for new gameplay
+                systems and community-created content.
+            </p>
+        </div>
+
+        <div class="about-visual">
+            <span>⬡</span>
+        </div>
+
     </div>
 </div>
 </section>
 
-<section id="features">
+<div class="section-line"></div>
+
+<!-- FEATURES -->
+
+<section class="features-section" id="features">
 <div class="container">
 
-    <h2 class="section-title">Core Features</h2>
+    <div class="features-header reveal">
+        <div>
+            <div class="section-label">02 / Features</div>
+            <h2 class="section-title">Built to evolve.</h2>
+        </div>
 
-    <p class="section-description">
-        The foundations of the Orvex experience.
-    </p>
+        <p class="section-description">
+            The core technologies and systems behind
+            the Orvex experience.
+        </p>
+    </div>
 
     <div class="features">
 
-        <div class="feature">
-            <div class="icon">🌍</div>
-            <h3>Procedural Worlds</h3>
+        <article class="feature reveal">
+            <div class="feature-icon">◈</div>
+            <h3>Procedural Generation</h3>
             <p>
-                Explore dynamically generated voxel environments
-                and discover new landscapes.
+                Dynamically generated voxel terrain
+                and environments for exploration.
             </p>
-        </div>
+        </article>
 
-        <div class="feature">
-            <div class="icon">☀️</div>
+        <article class="feature reveal">
+            <div class="feature-icon">☼</div>
             <h3>Dynamic Environment</h3>
             <p>
-                A changing world with a dynamic day and night cycle.
+                A changing world with a dynamic
+                day and night cycle.
             </p>
-        </div>
+        </article>
 
-        <div class="feature">
-            <div class="icon">🧩</div>
+        <article class="feature reveal">
+            <div class="feature-icon">⌘</div>
             <h3>Modding System</h3>
             <p>
-                A hybrid architecture designed to support
-                extensibility and community modifications.
+                A hybrid mod architecture designed
+                for extensibility and custom content.
             </p>
-        </div>
+        </article>
 
-        <div class="feature">
-            <div class="icon">⚙️</div>
+        <article class="feature reveal">
+            <div class="feature-icon">⬡</div>
             <h3>Modular Architecture</h3>
             <p>
-                An evolving foundation for new mechanics,
-                systems and gameplay possibilities.
+                Independent systems designed
+                to support future development.
             </p>
+        </article>
+
+    </div>
+
+</div>
+</section>
+
+<!-- MODDING -->
+
+<section class="mod-section" id="modding">
+<div class="container">
+
+    <div class="mod-card reveal">
+
+        <div class="mod-badge">EXTENSIBILITY</div>
+
+        <h2>
+            Your world.<br>
+            Your modifications.
+        </h2>
+
+        <p>
+            Orvex is being developed with a hybrid
+            modding architecture.
+
+            The goal is to make it possible to extend
+            the game with custom systems, mechanics
+            and additional content.
+        </p>
+
+        <a class="btn btn-secondary"
+           href="https://github.com/dpotapow1234-cpu/orvex"
+           target="_blank" rel="noopener noreferrer"
+           style="margin-top:28px">
+            Explore the source code ↗
+        </a>
+
+    </div>
+
+</div>
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+    <div class="section-label">03 / Open Source</div>
+
+    <h2>Follow the development.</h2>
+
+    <p>
+        Explore the source code, follow updates
+        and discover how Orvex is evolving.
+    </p>
+
+    <a class="btn btn-primary"
+       href="https://github.com/dpotapow1234-cpu/orvex"
+       target="_blank" rel="noopener noreferrer">
+        Visit GitHub Repository ↗
+    </a>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+<div class="container">
+    <div class="footer-content">
+
+        <a href="#" class="footer-logo">
+            ORV<span>EX</span>
+        </a>
+
+        <div class="footer-text">
+            Independent voxel sandbox project · 2026
+        </div>
+
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="https://github.com/dpotapow1234-cpu/orvex"
+               target="_blank" rel="noopener noreferrer">
+               GitHub ↗
+            </a>
         </div>
 
     </div>
 </div>
-</section>
-
-<footer>
-<div class="container footer-content">
-    <strong>ORVEX</strong>
-    <span>Independent voxel sandbox project · 2026</span>
-    <span>Open source on GitHub</span>
-</div>
 </footer>
+
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
+
+    menuToggle.setAttribute("aria-expanded", isOpen);
+    menuToggle.textContent = isOpen ? "✕" : "☰";
+});
+
+navLinks.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.textContent = "☰";
+    });
+});
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.12
+});
+
+document.querySelectorAll(".reveal").forEach(element => {
+    observer.observe(element);
+});
+</script>
 
 </body>
 </html>
