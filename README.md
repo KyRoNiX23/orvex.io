@@ -12,7 +12,7 @@ Static multi-page website for GitHub Pages.
 ## Publish
 1. Copy the contents of this folder into the root of the `orvex` repository.
 2. Commit and push to the branch configured in GitHub Pages.
-3. Open `https://dpotapow1234-cpu.github.io/orvex.io/`.
+3. Open `https://KyRoNiX23.github.io/orvex.io/`.
 
 No build step or JavaScript framework is required.
 
@@ -20,4 +20,4 @@ No build step or JavaScript framework is required.
 The mods catalog and changelog are intentionally presented as placeholders until real mods and releases exist. Update the text as the project evolves.
 
 
-![Счетчик просмотров](https://komarev.com/ghpvc/?username=dpotapow1234-cpu&color=green)
+![Счетчик просмотров](https://komarev.com/ghpvc/?username=KyRoNiX23&color=green)
